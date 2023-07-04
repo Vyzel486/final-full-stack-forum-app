@@ -3,13 +3,12 @@ import LoginLayout from "../layouts/LoginLayout";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import Profile from "../pages/Profile/Profile";
-import Main from "../pages/Main/Main";
+import Forum from "../pages/Forum/Forum";
 
-export const MAIN_ROUTE = "/main";
+export const FORUM_ROUTE = "/forum";
 export const REGISTER_ROUTE = "/register";
 export const LOGIN_ROUTE = "/";
 export const PROFILE_ROUTE = "/profile";
-export const CONTACTS_ROUTE = "/contacts";
 
 export const loginRoutes = {
   Layout: LoginLayout,
@@ -29,8 +28,8 @@ export const authenticatedRoutes = {
   Layout: RegisteredLayout,
   routes: [
     {
-      path: MAIN_ROUTE,
-      Component: Main,
+      path: FORUM_ROUTE,
+      Component: Forum,
     },
     {
       path: PROFILE_ROUTE,
@@ -39,4 +38,4 @@ export const authenticatedRoutes = {
   ],
 };
 
-export const topbarNavigationItems = [{ route: MAIN_ROUTE, title: "Forum" }];
+export const topbarNavigationItems = [{ route: FORUM_ROUTE, title: "Forum" }];

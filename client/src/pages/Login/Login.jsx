@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
 import FormItem from "../../components/FormItem/FormItem";
 import Button from "../../components/Button/Button";
-import { REGISTER_ROUTE, MAIN_ROUTE } from "../../routes/const";
+import { REGISTER_ROUTE, FORUM_ROUTE } from "../../routes/const";
 import "./Login.scss";
 
 const Login = () => {
@@ -18,7 +18,7 @@ const Login = () => {
     const user = { email, password };
     try {
       await handleLogin(user, setError);
-      navigate(MAIN_ROUTE);
+      navigate(FORUM_ROUTE);
     } catch (error) {
       setError("User email or password is incorrect.");
     }

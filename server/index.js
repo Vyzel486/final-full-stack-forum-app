@@ -78,6 +78,65 @@ app.post("/login", async (req, res) => {
   }
 });
 
+app.get("/questions", async (req, res) => {
+  try {
+    const con = await client.connect();
+    const data = await con.db(dbName).collection("Questions").find().toArray();
+    await con.close();
+    res.send(data);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.post("/add-question", async (req, res) => {
+  try {
+    const { text } = req.body;
+    const con = await client.connect();
+    const data = await con
+      .db(dbName)
+      .collection("Questions")
+      .insertOne({ text });
+    await con.close();
+    res.send(data);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.put("/questions/:id", async (req, res) => {
+  try {
+    const { title, description } = req.body;
+    const { id } = req.params;
+    const con = await client.connect();
+    const filter = { _id: new ObjectId(id) };
+    const update = { $set: { title, description } };
+    const data = await con
+      .db(dbName)
+      .collection("Questions")
+      .updateOne(filter, update);
+    await con.close();
+    res.send(data);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.delete("/questions/:id", async (req, res) => {
+  try {
+    const questionId = req.params.id;
+    const con = await client.connect();
+    const result = await con
+      .db(dbName)
+      .collection("Questions")
+      .deleteOne({ _id: new ObjectId(questionId) });
+    await con.close();
+    res.send(result);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server is running on the ${port} port`);
 });

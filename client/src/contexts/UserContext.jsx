@@ -3,19 +3,31 @@ import { useNavigate } from "react-router-dom";
 // import axios from "axios";
 import { LOGIN_ROUTE } from "../routes/const";
 import { checkUserCredentials } from "../utils/user";
-import { getUsers, createUser, updateUser } from "../api/projects";
+import {
+  getUsers,
+  createUser,
+  updateUser,
+  createQuestion,
+  updateQuestion,
+  deleteQuestion,
+} from "../api/projects";
 
 const UserContext = createContext({
   user: null,
+  question: null,
   isLoggedIn: false,
   handleLogin: () => null,
   handleLogout: () => null,
   handleRegister: () => null,
   handleUpdateUser: () => null,
+  handleCreateQuestion: () => null,
 });
 
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+  const [question, setQuestion] = useState(
+    JSON.parse(localStorage.getItem("question"))
+  );
   const isLoggedIn = !!user;
   const navigate = useNavigate();
 
@@ -62,15 +74,27 @@ const UserProvider = ({ children }) => {
       });
   };
 
+  const handleCreateQuestion = (newQuestion) => {
+    createQuestion(newQuestion)
+      .then((response) => {
+        setQuestion(response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   return (
     <UserContext.Provider
       value={{
         user,
+        question,
         isLoggedIn,
         handleLogin,
         handleLogout,
         handleRegister,
         handleUpdateUser,
+        handleCreateQuestion,
       }}
     >
       {children}
