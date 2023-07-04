@@ -10,9 +10,9 @@ export const createUser = async (newUser) => {
   return response.data;
 };
 
-export const updateUser = async (id, updatingUser) => {
+export const updateUser = async (_id, updatingUser) => {
   const response = await axios.put(
-    `http://localhost:3000/users/${id}`,
+    `http://localhost:3000/users/${_id}`,
     updatingUser
   );
   return response.data;

@@ -52,7 +52,7 @@ const UserProvider = ({ children }) => {
   };
 
   const handleUpdateUser = (updatingUser) => {
-    updateUser(user.id, updatingUser)
+    updateUser(user._id, updatingUser)
       .then((response) => {
         setUser(response);
         localStorage.setItem("user", JSON.stringify(response));

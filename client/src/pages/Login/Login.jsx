@@ -13,11 +13,15 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const user = { email, password };
-    handleLogin(user, setError);
-    navigate(MAIN_ROUTE);
+    try {
+      await handleLogin(user, setError);
+      navigate(MAIN_ROUTE);
+    } catch (error) {
+      setError("User email or password is incorrect.");
+    }
   };
 
   return (

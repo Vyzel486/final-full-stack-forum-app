@@ -40,6 +40,24 @@ app.post("/users", async (req, res) => {
   }
 });
 
+app.put("/users/:id", async (req, res) => {
+  try {
+    const { name, surname, date, email, password } = req.body;
+    const { id } = req.params;
+    const con = await client.connect();
+    const filter = { _id: new ObjectId(id) };
+    const update = { $set: { name, surname, date, email, password } };
+    const data = await con
+      .db(dbName)
+      .collection("Users")
+      .updateOne(filter, update);
+    await con.close();
+    res.send(data);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 app.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
