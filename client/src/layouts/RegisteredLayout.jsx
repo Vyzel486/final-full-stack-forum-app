@@ -3,9 +3,9 @@ import Topbar from "../components/Topbar/Topbar";
 
 const RegisteredLayout = ({ children }) => {
   return (
-    <div className="RegisteredLayout-container">
+    <div>
       <Topbar />
-      <div className="Registered-container">{children}</div>
+      <div>{children}</div>
     </div>
   );
 };

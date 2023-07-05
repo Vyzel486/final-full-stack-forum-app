@@ -91,12 +91,12 @@ app.get("/questions", async (req, res) => {
 
 app.post("/add-question", async (req, res) => {
   try {
-    const { text } = req.body;
+    const { text, startingDate } = req.body;
     const con = await client.connect();
     const data = await con
       .db(dbName)
       .collection("Questions")
-      .insertOne({ text });
+      .insertOne({ text, startingDate });
     await con.close();
     res.send(data);
   } catch (error) {

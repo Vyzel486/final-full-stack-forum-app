@@ -11,7 +11,7 @@ const Topbar = () => {
 
   return (
     <nav className="navigation">
-      <div className="navigation-items">
+      <div>
         {topbarNavigationItems.map((navItem) => (
           <Link to={navItem.route} key={navItem.title}>
             {navItem.title}
@@ -19,7 +19,7 @@ const Topbar = () => {
         ))}
       </div>
       <Link to={PROFILE_ROUTE} className="user-container">
-        <FaUserCircle />
+        <FaUserCircle className="icon" />
         {showUserFullName(user)}
       </Link>
     </nav>

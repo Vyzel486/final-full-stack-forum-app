@@ -18,6 +18,11 @@ export const updateUser = async (_id, updatingUser) => {
   return response.data;
 };
 
+export const getQuestion = async () => {
+  const response = await axios.get("http://localhost:3000/questions");
+  return response.data;
+};
+
 export const createQuestion = async (newQuestion) => {
   try {
     const response = await axios.post(
@@ -26,7 +31,7 @@ export const createQuestion = async (newQuestion) => {
     );
     return response.data;
   } catch (error) {
-    throw new Error("Klaida pridedant klausimą į MongoDB");
+    throw new Error("Error adding query to MongoDB");
   }
 };
 
@@ -38,10 +43,10 @@ export const updateQuestion = async (_id, updateQuestion) => {
   return response.data;
 };
 
-export const deleteQuestion = async (id) => {
+export const deleteQuestion = async (_id) => {
   try {
     const response = await axios.delete(
-      `http://localhost:3000/questions/${id}`
+      `http://localhost:3000/questions/${_id}`
     );
     return response.data;
   } catch (error) {
