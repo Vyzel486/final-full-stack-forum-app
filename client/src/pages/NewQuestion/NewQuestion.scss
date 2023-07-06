@@ -6,6 +6,9 @@
   align-items: center;
 
   .questionButton {
-    margin-top: 1.5rem;
+    width: 100%;
+    margin-top: 0.3rem;
+    display: flex;
+    justify-content: center;
   }
 }

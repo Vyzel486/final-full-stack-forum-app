@@ -22,7 +22,8 @@ const QuestionAction = () => {
   };
 
   const handleEdit = () => {
-    navigate(EDIT_QUESTION_ROUTE);
+    const route = `${EDIT_QUESTION_ROUTE}`;
+    navigate(route);
   };
 
   const handleAnswer = () => {

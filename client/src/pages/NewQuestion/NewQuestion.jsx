@@ -63,10 +63,11 @@ const NewQuestion = ({ question }) => {
           value={startingDate}
           onChange={(e) => setStartingDate(e.target.value)}
         />
-
-        <Button type="submit" className="questionButton">
-          {isEditing ? "Edit" : "Create"} Question
-        </Button>
+        <div className="questionButton">
+          <Button type="submit">
+            {isEditing ? "Edit" : "Create"} Question
+          </Button>
+        </div>
       </form>
     </div>
   );
