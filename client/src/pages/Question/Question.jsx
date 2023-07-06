@@ -26,30 +26,28 @@ const Question = () => {
       });
   }, [id]);
 
-  if (isLoading) {
-    return <Loader />;
-  }
-
-  if (!question) {
-    return <div>Question not found</div>;
-  }
-
   return (
     <div>
-      <QuestionAction id={question._id} />
+      <QuestionAction id={question ? question._id : null} />
 
       <div className="question-container">
-        {question.map((question) => (
-          <Link
-            key={question._id}
-            to={generatePath(QUESTION_ROUTE, { id: question._id })}
-          >
-            <QuestionCard
-              text={question.text}
-              startingDate={question.startingDate}
-            />
-          </Link>
-        ))}
+        {isLoading ? (
+          <Loader />
+        ) : question ? (
+          question.map((question) => (
+            <Link
+              key={question._id}
+              to={generatePath(QUESTION_ROUTE, { id: question._id })}
+            >
+              <QuestionCard
+                text={question.text}
+                startingDate={question.startingDate}
+              />
+            </Link>
+          ))
+        ) : (
+          <div>Question not found</div>
+        )}
       </div>
     </div>
   );
