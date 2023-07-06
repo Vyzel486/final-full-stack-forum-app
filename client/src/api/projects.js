@@ -33,10 +33,10 @@ export const getQuestion = async (_id) => {
   return response.data;
 };
 
-export const createQuestion = async (newQuestion) => {
+export const createQuestion = async (question) => {
   const response = await axios.post(
     "http://localhost:3000/add-question",
-    newQuestion
+    question
   );
   return response.data;
 };

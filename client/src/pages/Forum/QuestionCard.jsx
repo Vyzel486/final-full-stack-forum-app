@@ -5,7 +5,7 @@ const QuestionCard = ({ text, startingDate }) => {
   return (
     <div className="questionsCard-container">
       <p>{text}</p>
-      <div>{startingDate}</div>
+      <p>{startingDate}</p>
     </div>
   );
 };

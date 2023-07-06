@@ -6,6 +6,7 @@ import {
   EDIT_QUESTION_ROUTE,
   ANSWER_ROUTE,
 } from "../../../routes/const";
+import "./QuestionAction.scss";
 
 const QuestionAction = () => {
   const { id } = useParams();
@@ -29,14 +30,19 @@ const QuestionAction = () => {
   };
 
   return (
-    <div className="project-actions">
-      <Button variant="outlined" onClick={handleEdit}>
-        Edit Question
-      </Button>
-      <Button color="error" onClick={handleDelete}>
-        Delete Question
-      </Button>
-      <Button onClick={handleAnswer}>Answer Question</Button>
+    <div className="question-actions">
+      <div className="question-actions-buttons">
+        <Button variant="outlined" onClick={handleEdit}>
+          Edit Question
+        </Button>
+        <Button color="error" onClick={handleDelete}>
+          Delete Question
+        </Button>
+      </div>
+
+      <div>
+        <Button onClick={handleAnswer}>To answer to question</Button>
+      </div>
     </div>
   );
 };

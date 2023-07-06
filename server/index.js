@@ -127,7 +127,7 @@ app.post("/add-question", async (req, res) => {
     const data = await con
       .db(dbName)
       .collection("Questions")
-      .insertOne({ text, startingDate });
+      .insertOne({ text, startingDate, userId: new ObjectId(req.body.userId) });
     await con.close();
     res.send(data);
   } catch (error) {
@@ -179,6 +179,22 @@ app.get("/answers", async (req, res) => {
   }
 });
 
+app.get("/answers/:id", async (req, res) => {
+  try {
+    const questionId = req.params.id;
+    const con = await client.connect();
+    const data = await con
+      .db(dbName)
+      .collection("Answers")
+      .find({ _id: new ObjectId(questionId) })
+      .toArray();
+    await con.close();
+    res.send(data);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 app.post("/add-answer", async (req, res) => {
   try {
     const { text, startingDate } = req.body;
@@ -186,7 +202,7 @@ app.post("/add-answer", async (req, res) => {
     const data = await con
       .db(dbName)
       .collection("Answers")
-      .insertOne({ text, startingDate });
+      .insertOne({ text, startingDate, userId: new ObjectId(req.body.userId) });
     await con.close();
     res.send(data);
   } catch (error) {
@@ -222,6 +238,78 @@ app.delete("/answers/:id", async (req, res) => {
       .deleteOne({ _id: new ObjectId(answerId) });
     await con.close();
     res.send(result);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.get("/usersWithQuestions", async (req, res) => {
+  try {
+    const con = await client.connect();
+    const data = await con
+      .db(dbName)
+      .collection("Users")
+      .aggregate([
+        {
+          $lookup: {
+            from: "Questions",
+            localField: "_id",
+            foreignField: "userId",
+            as: "Questions",
+          },
+        },
+      ])
+      .toArray();
+    await con.close();
+    res.send(data);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.get("/usersWithAnswers", async (req, res) => {
+  try {
+    const con = await client.connect();
+    const data = await con
+      .db(dbName)
+      .collection("Users")
+      .aggregate([
+        {
+          $lookup: {
+            from: "Answers",
+            localField: "_id",
+            foreignField: "userId",
+            as: "Answers",
+          },
+        },
+      ])
+      .toArray();
+    await con.close();
+    res.send(data);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.get("/questionsWithAnswers", async (req, res) => {
+  try {
+    const con = await client.connect();
+    const data = await con
+      .db(dbName)
+      .collection("Questions")
+      .aggregate([
+        {
+          $lookup: {
+            from: "Answers",
+            localField: "_id",
+            foreignField: "userId",
+            as: "Answers",
+          },
+        },
+      ])
+      .toArray();
+    await con.close();
+    res.send(data);
   } catch (error) {
     res.status(500).send(error);
   }

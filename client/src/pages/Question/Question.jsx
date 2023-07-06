@@ -1,18 +1,20 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import Loader from "../../components/Loader/Loader";
+import { Link, useParams, generatePath } from "react-router-dom";
 import { getQuestion } from "../../api/projects";
 import QuestionAction from "./QuestionAction/QuestionAction";
+import QuestionCard from "../Forum/QuestionCard";
+import { QUESTION_ROUTE } from "../../routes/const";
+import Loader from "../../components/Loader/Loader";
 import "./Question.scss";
 
 const Question = () => {
-  const { _id } = useParams();
+  const { id } = useParams();
   const [question, setQuestion] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
-    getQuestion(_id)
+    getQuestion(id)
       .then((response) => {
         setQuestion(response);
       })
@@ -22,19 +24,33 @@ const Question = () => {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [_id]);
+  }, [id]);
 
   if (isLoading) {
     return <Loader />;
   }
 
   if (!question) {
-    return <div>There are no questions yet.</div>;
+    return <div>Question not found</div>;
   }
 
   return (
     <div>
-      <QuestionAction id={_id} />
+      <QuestionAction id={question._id} />
+
+      <div className="question-container">
+        {question.map((question) => (
+          <Link
+            key={question._id}
+            to={generatePath(QUESTION_ROUTE, { id: question._id })}
+          >
+            <QuestionCard
+              text={question.text}
+              startingDate={question.startingDate}
+            />
+          </Link>
+        ))}
+      </div>
     </div>
   );
 };
