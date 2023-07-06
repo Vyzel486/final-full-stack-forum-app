@@ -58,6 +58,21 @@ app.put("/users/:id", async (req, res) => {
   }
 });
 
+app.delete("/users/:id", async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const con = await client.connect();
+    const result = await con
+      .db(dbName)
+      .collection("Users")
+      .deleteOne({ _id: new ObjectId(userId) });
+    await con.close();
+    res.send(result);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 app.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -89,6 +104,22 @@ app.get("/questions", async (req, res) => {
   }
 });
 
+app.get("/questions/:id", async (req, res) => {
+  try {
+    const questionId = req.params.id;
+    const con = await client.connect();
+    const data = await con
+      .db(dbName)
+      .collection("Questions")
+      .find({ _id: new ObjectId(questionId) })
+      .toArray();
+    await con.close();
+    res.send(data);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 app.post("/add-question", async (req, res) => {
   try {
     const { text, startingDate } = req.body;
@@ -106,11 +137,11 @@ app.post("/add-question", async (req, res) => {
 
 app.put("/questions/:id", async (req, res) => {
   try {
-    const { title, description } = req.body;
+    const { text, startingDate } = req.body;
     const { id } = req.params;
     const con = await client.connect();
     const filter = { _id: new ObjectId(id) };
-    const update = { $set: { title, description } };
+    const update = { $set: { text, startingDate } };
     const data = await con
       .db(dbName)
       .collection("Questions")
@@ -130,6 +161,65 @@ app.delete("/questions/:id", async (req, res) => {
       .db(dbName)
       .collection("Questions")
       .deleteOne({ _id: new ObjectId(questionId) });
+    await con.close();
+    res.send(result);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.get("/answers", async (req, res) => {
+  try {
+    const con = await client.connect();
+    const data = await con.db(dbName).collection("Answers").find().toArray();
+    await con.close();
+    res.send(data);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.post("/add-answer", async (req, res) => {
+  try {
+    const { text, startingDate } = req.body;
+    const con = await client.connect();
+    const data = await con
+      .db(dbName)
+      .collection("Answers")
+      .insertOne({ text, startingDate });
+    await con.close();
+    res.send(data);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.put("/answers/:id", async (req, res) => {
+  try {
+    const { text, startingDate } = req.body;
+    const { id } = req.params;
+    const con = await client.connect();
+    const filter = { _id: new ObjectId(id) };
+    const update = { $set: { text, startingDate } };
+    const data = await con
+      .db(dbName)
+      .collection("Answers")
+      .updateOne(filter, update);
+    await con.close();
+    res.send(data);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.delete("/answers/:id", async (req, res) => {
+  try {
+    const answerId = req.params.id;
+    const con = await client.connect();
+    const result = await con
+      .db(dbName)
+      .collection("Answers")
+      .deleteOne({ _id: new ObjectId(answerId) });
     await con.close();
     res.send(result);
   } catch (error) {

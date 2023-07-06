@@ -1,19 +1,24 @@
 import { useEffect, useState } from "react";
-import { Link, generatePath } from "react-router-dom";
-import { getQuestion } from "../../api/projects";
-import QuestionsCard from "./QuestionsCard";
+import { Link, generatePath, useNavigate } from "react-router-dom";
+import { getQuestions } from "../../api/projects";
+import QuestionCard from "./QuestionCard";
 import Button from "../../components/Button/Button";
-import { NEW_QUESTION_ROUTE, QUESTION_ROUTE } from "../../routes/const";
+import { QUESTION_ROUTE, NEW_QUESTION_ROUTE } from "../../routes/const";
 import Loader from "../../components/Loader/Loader";
 import "./Forum.scss";
 
 const Forum = () => {
+  const navigate = useNavigate();
   const [questions, setQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const handleNavigate = () => {
+    navigate(NEW_QUESTION_ROUTE);
+  };
+
   useEffect(() => {
     setIsLoading(true);
-    getQuestion()
+    getQuestions()
       .then((response) => {
         setQuestions(response);
       })
@@ -34,18 +39,21 @@ const Forum = () => {
   }
 
   return (
-    <div className="questions-container">
-      <Link to={NEW_QUESTION_ROUTE}>
-        <Button>Create New Question</Button>
-      </Link>
-
+    <div>
       <div>
+        <Button onClick={handleNavigate}>Create</Button>
+      </div>
+
+      <div className="questions-container">
         {questions.map((question) => (
           <Link
             key={question._id}
             to={generatePath(QUESTION_ROUTE, { id: question._id })}
           >
-            <QuestionsCard text={question.text} />
+            <QuestionCard
+              text={question.text}
+              startingDate={question.startingDate}
+            />
           </Link>
         ))}
       </div>

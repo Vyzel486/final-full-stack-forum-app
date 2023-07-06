@@ -1,16 +1,18 @@
 import PropTypes from "prop-types";
 import "./Forum.scss";
 
-const QuestionsCard = ({ text }) => {
+const QuestionCard = ({ text, startingDate }) => {
   return (
     <div className="questionsCard-container">
       <p>{text}</p>
+      <div>{startingDate}</div>
     </div>
   );
 };
 
-QuestionsCard.propTypes = {
+QuestionCard.propTypes = {
   text: PropTypes.string.isRequired,
+  startingDate: PropTypes.string.isRequired,
 };
 
-export default QuestionsCard;
+export default QuestionCard;

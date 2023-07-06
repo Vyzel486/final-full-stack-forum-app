@@ -1,20 +1,22 @@
-@import "../../styles/shadows.scss";
+@import "../../styles/colors.scss";
 
 .form {
   width: 500px;
   padding: 2rem;
 
   &-item {
-    margin-bottom: 1rem;
+    margin-bottom: 0.3rem;
   }
 
   .button-container {
+    width: 100%;
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: center;
+    margin-top: 0.5rem;
   }
 
   .error {
-    color: red;
+    color: $errorMain;
   }
 }

@@ -7,14 +7,16 @@ import Forum from "../pages/Forum/Forum";
 import NewQuestion from "../pages/NewQuestion/NewQuestion";
 import Question from "../pages/Question/Question";
 import EditQuestion from "../pages/EditQuestion/EditQuestion";
+import Answers from "../pages/Answers/Answers";
 
-export const FORUM_ROUTE = "/forum";
-export const REGISTER_ROUTE = "/register";
 export const LOGIN_ROUTE = "/";
+export const REGISTER_ROUTE = "/register";
+export const FORUM_ROUTE = "/";
 export const PROFILE_ROUTE = "/profile";
 export const NEW_QUESTION_ROUTE = `${FORUM_ROUTE}/new`;
 export const QUESTION_ROUTE = `${FORUM_ROUTE}/:id`;
 export const EDIT_QUESTION_ROUTE = `${QUESTION_ROUTE}/edit`;
+export const ANSWER_ROUTE = "./answer";
 
 export const loginRoutes = {
   Layout: LoginLayout,
@@ -52,6 +54,10 @@ export const authenticatedRoutes = {
     {
       path: EDIT_QUESTION_ROUTE,
       Component: EditQuestion,
+    },
+    {
+      path: ANSWER_ROUTE,
+      Component: Answers,
     },
   ],
 };

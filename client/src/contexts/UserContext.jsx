@@ -1,15 +1,13 @@
 import { createContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import axios from "axios";
 import { LOGIN_ROUTE } from "../routes/const";
 import { checkUserCredentials } from "../utils/user";
 import {
   getUsers,
   createUser,
   updateUser,
+  deleteUser,
   createQuestion,
-  updateQuestion,
-  deleteQuestion,
 } from "../api/projects";
 
 const UserContext = createContext({
@@ -25,10 +23,13 @@ const UserContext = createContext({
 
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+
   const [question, setQuestion] = useState(
     JSON.parse(localStorage.getItem("question"))
   );
+
   const isLoggedIn = !!user;
+
   const navigate = useNavigate();
 
   const handleLogin = (user, setError) => {
@@ -68,16 +69,25 @@ const UserProvider = ({ children }) => {
       .then((response) => {
         setUser(response);
         localStorage.setItem("user", JSON.stringify(response));
+        navigate(LOGIN_ROUTE);
       })
       .catch((error) => {
         console.error(error);
       });
   };
 
+  const handleDeleteUser = () => {
+    deleteUser(user._id);
+    setUser(null);
+    localStorage.setItem("user", null);
+    navigate(LOGIN_ROUTE);
+  };
+
   const handleCreateQuestion = (newQuestion) => {
     createQuestion(newQuestion)
       .then((response) => {
         setQuestion(response);
+        localStorage.setItem("question", JSON.stringify(response));
       })
       .catch((error) => {
         console.error(error);
@@ -94,6 +104,7 @@ const UserProvider = ({ children }) => {
         handleLogout,
         handleRegister,
         handleUpdateUser,
+        handleDeleteUser,
         handleCreateQuestion,
       }}
     >

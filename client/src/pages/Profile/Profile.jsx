@@ -5,7 +5,9 @@ import Button from "../../components/Button/Button";
 import "./Profile.scss";
 
 const Profile = () => {
-  const { user, handleUpdateUser, handleLogout } = useContext(UserContext);
+  const { user, handleUpdateUser, handleDeleteUser, handleLogout } = useContext(
+    UserContext
+  );
   const [name, setName] = useState(user.name);
   const [surname, setSurname] = useState(user.surname);
   const [date, setDate] = useState(user.date);
@@ -65,6 +67,9 @@ const Profile = () => {
           <Button>Update</Button>
           <Button type="button" variant="outlined" onClick={handleLogout}>
             Logout
+          </Button>
+          <Button color="error" onClick={handleDeleteUser}>
+            Delete
           </Button>
         </div>
       </form>
