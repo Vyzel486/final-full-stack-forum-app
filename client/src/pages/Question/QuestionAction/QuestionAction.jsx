@@ -1,4 +1,5 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, generatePath } from "react-router-dom";
+import PropTypes from "prop-types";
 import Button from "../../../components/Button/Button";
 import { deleteQuestion } from "../../../api/projects";
 import {
@@ -22,8 +23,8 @@ const QuestionAction = () => {
   };
 
   const handleEdit = () => {
-    const route = `${EDIT_QUESTION_ROUTE}`;
-    navigate(route);
+    const path = generatePath(EDIT_QUESTION_ROUTE, { id });
+    navigate(path);
   };
 
   const handleAnswer = () => {
@@ -46,6 +47,10 @@ const QuestionAction = () => {
       </div>
     </div>
   );
+};
+
+QuestionAction.propTypes = {
+  id: PropTypes.string.isRequired,
 };
 
 export default QuestionAction;

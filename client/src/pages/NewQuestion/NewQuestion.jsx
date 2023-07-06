@@ -16,9 +16,9 @@ const NewQuestion = ({ question }) => {
     question?.startingDate ? formatDate(question.startingDate) : ""
   );
 
-  const navigate = useNavigate();
-
   const isEditing = !!question;
+
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -64,9 +64,7 @@ const NewQuestion = ({ question }) => {
           onChange={(e) => setStartingDate(e.target.value)}
         />
         <div className="questionButton">
-          <Button type="submit">
-            {isEditing ? "Edit" : "Create"} Question
-          </Button>
+          <Button>{isEditing ? "Edit" : "Create"} Question</Button>
         </div>
       </form>
     </div>
