@@ -68,9 +68,9 @@ export const getAnswer = async (_id) => {
   return response.data;
 };
 
-export const createAnswer = async (newAnswer) => {
+export const createAnswer = async (questionId, newAnswer) => {
   const response = await axios.post(
-    "http://localhost:3000/add-answer",
+    `http://localhost:3000/questions/${questionId}/answer`,
     newAnswer
   );
   return response.data;

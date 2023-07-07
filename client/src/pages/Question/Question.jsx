@@ -3,6 +3,7 @@ import { UserContext } from "../../contexts/UserContext";
 import { Link, useParams, generatePath, useNavigate } from "react-router-dom";
 import { getQuestion, createAnswer, getAnswers } from "../../api/projects";
 import QuestionAction from "./QuestionAction/QuestionAction";
+import AnswerAction from "./AnswerAction/AnswerAction";
 import QuestionCard from "../Forum/QuestionCard";
 import { QUESTION_ROUTE } from "../../routes/const";
 import Loader from "../../components/Loader/Loader";
@@ -42,7 +43,8 @@ const Question = () => {
       };
 
       await createAnswer(answerData);
-      navigate(QUESTION_ROUTE);
+      console.log(id);
+      navigate(generatePath(QUESTION_ROUTE, { id }));
     } catch (error) {
       console.error(error);
     }
@@ -65,7 +67,10 @@ const Question = () => {
 
   return (
     <div>
-      <QuestionAction id={question ? question._id : null} />
+      <div className="actions-container">
+        <QuestionAction id={question ? question._id : null} />
+        <AnswerAction id={question ? question._id : null} />
+      </div>
 
       <div className="question-container">
         {isLoading ? (

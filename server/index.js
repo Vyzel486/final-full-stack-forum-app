@@ -113,9 +113,11 @@ app.get("/questions/:id", async (req, res) => {
       .collection("Questions")
       .find({ _id: new ObjectId(questionId) })
       .toArray();
-    await con.close();
+    // await con.close();
+    console.log("data", data);
     res.send(data);
   } catch (error) {
+    console.log("error getQuestion", error);
     res.status(500).send(error);
   }
 });
@@ -174,16 +176,18 @@ app.delete("/questions/:id", async (req, res) => {
 
 app.get("/questions/:questionId/answers", async (req, res) => {
   try {
-    const questionId = req.params.questionId;
+    const { questionId } = req.params;
     const con = await client.connect();
     const data = await con
       .db(dbName)
       .collection("Answers")
-      .find({ questionId: questionId })
+      .find({ questionId })
       .toArray();
+    console.log("data", data);
     await con.close();
     res.send(data);
   } catch (error) {
+    console.log("error getAnswers", error);
     res.status(500).send(error);
   }
 });
@@ -204,11 +208,11 @@ app.get("/answers/:id", async (req, res) => {
   }
 });
 
-app.post("/add-answer", async (req, res) => {
+app.post("/questions/:questionId/answer", async (req, res) => {
   try {
+    const { questionId } = req.params;
     const { text } = req.body;
     const con = await client.connect();
-    const { id } = req.params;
     const data = await con
       .db(dbName)
       .collection("Answers")
@@ -216,7 +220,7 @@ app.post("/add-answer", async (req, res) => {
         text,
         date: new Date(),
         userId: new ObjectId(req.body.userId),
-        questionId: new ObjectId(id),
+        questionId,
       });
     await con.close();
     res.send(data);
