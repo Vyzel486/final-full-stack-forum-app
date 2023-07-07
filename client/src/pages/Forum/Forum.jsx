@@ -32,7 +32,7 @@ const Forum = () => {
           <Button>Create new Question</Button>
         </Link>
       </div>
-
+      <h2 className="title">QUESTIONS</h2>
       <div className="questions-container">
         {isLoading ? (
           <Loader />

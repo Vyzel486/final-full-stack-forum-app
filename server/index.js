@@ -172,10 +172,15 @@ app.delete("/questions/:id", async (req, res) => {
   }
 });
 
-app.get("/answers", async (req, res) => {
+app.get("/questions/:questionId/answers", async (req, res) => {
   try {
+    const questionId = req.params.questionId;
     const con = await client.connect();
-    const data = await con.db(dbName).collection("Answers").find().toArray();
+    const data = await con
+      .db(dbName)
+      .collection("Answers")
+      .find({ questionId: questionId })
+      .toArray();
     await con.close();
     res.send(data);
   } catch (error) {
@@ -324,28 +329,6 @@ app.get("/questionsWithAnswers", async (req, res) => {
     res.status(500).send(error);
   }
 });
-
-// app.post("/questions/:id/answers", async (req, res) => {
-//   try {
-//     const { text } = req.body;
-//     const con = await client.connect();
-//     const { id } = req.params;
-//     const answer = await con
-//       .db(dbName)
-//       .collection("Answers")
-//       .insertOne({
-//         text,
-//         count: null,
-//         date: new Date(),
-//         questionId: new ObjectId(id),
-//         userId: new ObjectId(req.body.userId),
-//       });
-//     res.status(200).json(answer);
-//     await con.close();
-//   } catch (error) {
-//     res.status(500).send(error);
-//   }
-// });
 
 app.listen(port, () => {
   console.log(`Server is running on the ${port} port`);

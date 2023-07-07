@@ -41,9 +41,11 @@ export const createQuestion = async (question) => {
   return response.data;
 };
 
-export const updateQuestion = async (id) => {
+export const updateQuestion = async (question) => {
+  console.log(question);
   const response = await axios.put(
-    console.log(id)`http://localhost:3000/questions/${id}`
+    `http://localhost:3000/questions/${question.id}`,
+    question
   );
   return response.data;
 };
@@ -53,16 +55,16 @@ export const deleteQuestion = async (_id) => {
   return response.data;
 };
 
-export const getAnswers = async () => {
-  const response = await axios.get("http://localhost:3000/answers");
+export const getAnswers = async (questionId) => {
+  const response = await axios.get(
+    `http://localhost:3000/questions/${questionId}/answers`
+  );
   return response.data;
 };
 
-export const getAnswer = async (responsedata) => {
-  const response = await axios.get(
-    `http://localhost:3000/answers${responsedata}`
-  );
-  console.log(responsedata);
+export const getAnswer = async (_id) => {
+  const response = await axios.get(`http://localhost:3000/answers/${_id}`);
+  console.log(response.data);
   return response.data;
 };
 

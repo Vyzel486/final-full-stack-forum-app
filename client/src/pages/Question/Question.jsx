@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import { Link, useParams, generatePath, useNavigate } from "react-router-dom";
-import { getQuestion, createAnswer, getAnswer } from "../../api/projects";
+import { getQuestion, createAnswer, getAnswers } from "../../api/projects";
 import QuestionAction from "./QuestionAction/QuestionAction";
 import QuestionCard from "../Forum/QuestionCard";
 import { QUESTION_ROUTE } from "../../routes/const";
@@ -14,7 +14,7 @@ const Question = () => {
   const { id } = useParams();
   const { user } = useContext(UserContext);
   const [question, setQuestion] = useState(null);
-  const [answer, setAnswer] = useState(null);
+  const [answers, setAnswers] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [text, setText] = useState("");
 
@@ -50,9 +50,9 @@ const Question = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    getAnswer(id)
+    getAnswers(id)
       .then((response) => {
-        setAnswer(response);
+        setAnswers(response);
         console.log(response);
       })
       .catch((error) => {
@@ -90,8 +90,8 @@ const Question = () => {
       <div className="question-container">
         {isLoading ? (
           <Loader />
-        ) : answer ? (
-          answer.map((answer) => (
+        ) : answers ? (
+          answers.map((answer) => (
             <Link
               key={answer._id}
               to={generatePath(QUESTION_ROUTE, { id: answer._id })}

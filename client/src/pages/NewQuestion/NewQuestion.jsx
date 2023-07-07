@@ -25,7 +25,7 @@ const NewQuestion = ({ question }) => {
     };
 
     const saveQuestion = isEditing ? updateQuestion : createQuestion;
-
+    console.log(question);
     const savingQuestion = isEditing
       ? { id: question._id, ...submittingQuestion }
       : submittingQuestion;

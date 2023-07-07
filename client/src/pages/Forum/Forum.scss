@@ -18,6 +18,11 @@
   padding: 1rem 1rem 0 0;
 }
 
+.title {
+  text-align: center;
+  color: $primaryMain;
+}
+
 .questionsCard-container {
   border: 1px solid $cardDark;
   width: 500px;
