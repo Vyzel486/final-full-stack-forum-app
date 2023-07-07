@@ -58,8 +58,11 @@ export const getAnswers = async () => {
   return response.data;
 };
 
-export const getAnswer = async (_id) => {
-  const response = await axios.get(`http://localhost:3000/answers/${_id}`);
+export const getAnswer = async (responsedata) => {
+  const response = await axios.get(
+    `http://localhost:3000/answers${responsedata}`
+  );
+  console.log(responsedata);
   return response.data;
 };
 

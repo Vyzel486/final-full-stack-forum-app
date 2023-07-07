@@ -53,6 +53,7 @@ const Question = () => {
     getAnswer(id)
       .then((response) => {
         setAnswer(response);
+        console.log(response);
       })
       .catch((error) => {
         console.error(error);
@@ -89,7 +90,7 @@ const Question = () => {
       <div className="question-container">
         {isLoading ? (
           <Loader />
-        ) : answer && answer.length > 0 ? (
+        ) : answer ? (
           answer.map((answer) => (
             <Link
               key={answer._id}

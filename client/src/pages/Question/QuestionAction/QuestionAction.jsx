@@ -1,5 +1,4 @@
 import { useNavigate, useParams, generatePath } from "react-router-dom";
-import PropTypes from "prop-types";
 import Button from "../../../components/Button/Button";
 import { deleteQuestion } from "../../../api/projects";
 import { FORUM_ROUTE, EDIT_QUESTION_ROUTE } from "../../../routes/const";
@@ -35,10 +34,6 @@ const QuestionAction = () => {
       </div>
     </div>
   );
-};
-
-QuestionAction.propTypes = {
-  id: PropTypes.string.isRequired,
 };
 
 export default QuestionAction;
