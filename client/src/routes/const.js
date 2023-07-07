@@ -16,7 +16,7 @@ export const PROFILE_ROUTE = "/profile";
 export const NEW_QUESTION_ROUTE = `${FORUM_ROUTE}new`;
 export const QUESTION_ROUTE = `${FORUM_ROUTE}:id`;
 export const EDIT_QUESTION_ROUTE = `${QUESTION_ROUTE}/edit`;
-export const ANSWER_ROUTE = `${QUESTION_ROUTE}/:id/answers`;
+export const ANSWER_ROUTE = `${QUESTION_ROUTE}/answers`;
 
 export const loginRoutes = {
   Layout: LoginLayout,

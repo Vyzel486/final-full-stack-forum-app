@@ -2,11 +2,7 @@ import { useNavigate, useParams, generatePath } from "react-router-dom";
 import PropTypes from "prop-types";
 import Button from "../../../components/Button/Button";
 import { deleteQuestion } from "../../../api/projects";
-import {
-  FORUM_ROUTE,
-  EDIT_QUESTION_ROUTE,
-  ANSWER_ROUTE,
-} from "../../../routes/const";
+import { FORUM_ROUTE, EDIT_QUESTION_ROUTE } from "../../../routes/const";
 import "./QuestionAction.scss";
 
 const QuestionAction = () => {
@@ -27,10 +23,6 @@ const QuestionAction = () => {
     navigate(path);
   };
 
-  const handleAnswer = () => {
-    navigate(ANSWER_ROUTE);
-  };
-
   return (
     <div className="question-actions">
       <div className="question-actions-buttons">
@@ -40,10 +32,6 @@ const QuestionAction = () => {
         <Button color="error" onClick={handleDelete}>
           Delete Question
         </Button>
-      </div>
-
-      <div>
-        <Button onClick={handleAnswer}>To answer to question</Button>
       </div>
     </div>
   );

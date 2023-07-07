@@ -122,12 +122,16 @@ app.get("/questions/:id", async (req, res) => {
 
 app.post("/add-question", async (req, res) => {
   try {
-    const { text, startingDate } = req.body;
+    const { text } = req.body;
     const con = await client.connect();
     const data = await con
       .db(dbName)
       .collection("Questions")
-      .insertOne({ text, startingDate, userId: new ObjectId(req.body.userId) });
+      .insertOne({
+        text,
+        date: new Date(),
+        userId: new ObjectId(req.body.userId),
+      });
     await con.close();
     res.send(data);
   } catch (error) {
@@ -140,12 +144,12 @@ app.put("/questions/:id", async (req, res) => {
     const { text, startingDate } = req.body;
     const { id } = req.params;
     const con = await client.connect();
-    const filter = { _id: new ObjectId(id) };
+    const questionId = { _id: new ObjectId(id) };
     const update = { $set: { text, startingDate } };
     const data = await con
       .db(dbName)
       .collection("Questions")
-      .updateOne(filter, update);
+      .updateOne(questionId, update);
     await con.close();
     res.send(data);
   } catch (error) {
@@ -181,12 +185,12 @@ app.get("/answers", async (req, res) => {
 
 app.get("/answers/:id", async (req, res) => {
   try {
-    const questionId = req.params.id;
+    const answerId = req.params.id;
     const con = await client.connect();
     const data = await con
       .db(dbName)
       .collection("Answers")
-      .find({ _id: new ObjectId(questionId) })
+      .find({ _id: new ObjectId(answerId) })
       .toArray();
     await con.close();
     res.send(data);
@@ -197,12 +201,18 @@ app.get("/answers/:id", async (req, res) => {
 
 app.post("/add-answer", async (req, res) => {
   try {
-    const { text, startingDate } = req.body;
+    const { text } = req.body;
     const con = await client.connect();
+    const { id } = req.params;
     const data = await con
       .db(dbName)
       .collection("Answers")
-      .insertOne({ text, startingDate, userId: new ObjectId(req.body.userId) });
+      .insertOne({
+        text,
+        date: new Date(),
+        userId: new ObjectId(req.body.userId),
+        questionId: new ObjectId(id),
+      });
     await con.close();
     res.send(data);
   } catch (error) {
@@ -215,12 +225,12 @@ app.put("/answers/:id", async (req, res) => {
     const { text, startingDate } = req.body;
     const { id } = req.params;
     const con = await client.connect();
-    const filter = { _id: new ObjectId(id) };
+    const answerId = { _id: new ObjectId(id) };
     const update = { $set: { text, startingDate } };
     const data = await con
       .db(dbName)
       .collection("Answers")
-      .updateOne(filter, update);
+      .updateOne(answerId, update);
     await con.close();
     res.send(data);
   } catch (error) {
@@ -302,7 +312,7 @@ app.get("/questionsWithAnswers", async (req, res) => {
           $lookup: {
             from: "Answers",
             localField: "_id",
-            foreignField: "userId",
+            foreignField: "questionId",
             as: "Answers",
           },
         },
@@ -314,6 +324,28 @@ app.get("/questionsWithAnswers", async (req, res) => {
     res.status(500).send(error);
   }
 });
+
+// app.post("/questions/:id/answers", async (req, res) => {
+//   try {
+//     const { text } = req.body;
+//     const con = await client.connect();
+//     const { id } = req.params;
+//     const answer = await con
+//       .db(dbName)
+//       .collection("Answers")
+//       .insertOne({
+//         text,
+//         count: null,
+//         date: new Date(),
+//         questionId: new ObjectId(id),
+//         userId: new ObjectId(req.body.userId),
+//       });
+//     res.status(200).json(answer);
+//     await con.close();
+//   } catch (error) {
+//     res.status(500).send(error);
+//   }
+// });
 
 app.listen(port, () => {
   console.log(`Server is running on the ${port} port`);

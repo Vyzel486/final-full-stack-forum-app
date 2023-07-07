@@ -6,15 +6,11 @@ import Button from "../../components/Button/Button";
 import FormItem from "../../components/FormItem/FormItem";
 import { createQuestion, updateQuestion } from "../../api/projects";
 import { FORUM_ROUTE, QUESTION_ROUTE } from "../../routes/const";
-import { formatDate } from "../../utils/date";
 import "./NewQuestion.scss";
 
 const NewQuestion = ({ question }) => {
   const { user } = useContext(UserContext);
   const [text, setText] = useState(question?.text || "");
-  const [startingDate, setStartingDate] = useState(
-    question?.startingDate ? formatDate(question.startingDate) : ""
-  );
 
   const isEditing = !!question;
 
@@ -26,7 +22,6 @@ const NewQuestion = ({ question }) => {
     const submittingQuestion = {
       userId: user._id,
       text,
-      startingDate,
     };
 
     const saveQuestion = isEditing ? updateQuestion : createQuestion;
@@ -57,12 +52,6 @@ const NewQuestion = ({ question }) => {
           onChange={(e) => setText(e.target.value)}
         />
 
-        <FormItem
-          type="date"
-          label="Starting Date"
-          value={startingDate}
-          onChange={(e) => setStartingDate(e.target.value)}
-        />
         <div className="questionButton">
           <Button>{isEditing ? "Edit" : "Create"} Question</Button>
         </div>

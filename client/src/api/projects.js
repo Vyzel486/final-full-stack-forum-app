@@ -41,10 +41,9 @@ export const createQuestion = async (question) => {
   return response.data;
 };
 
-export const updateQuestion = async (question) => {
+export const updateQuestion = async (id) => {
   const response = await axios.put(
-    `http://localhost:3000/questions/${question._id}`,
-    question
+    console.log(id)`http://localhost:3000/questions/${id}`
   );
   return response.data;
 };
