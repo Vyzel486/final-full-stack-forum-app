@@ -88,3 +88,19 @@ export const deleteAnswer = async (_id) => {
   const response = await axios.delete(`http://localhost:3000/answers/${_id}`);
   return response.data;
 };
+
+export const sortQuestions = async (sortType) => {
+  let sort = "";
+  if (sortType === "dateAsc") {
+    sort = "date";
+  } else if (sortType === "dateDesc") {
+    sort = "-date";
+  } else if (sortType === "answersAsc") {
+    sort = "answerCount";
+  } else if (sortType === "answersDesc") {
+    sort = "-answerCount";
+  }
+
+  const response = await axios.get(`/questions?sort=${sort}`);
+  return response.data;
+};

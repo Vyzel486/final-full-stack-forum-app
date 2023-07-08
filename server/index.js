@@ -143,11 +143,11 @@ app.post("/add-question", async (req, res) => {
 
 app.put("/questions/:id", async (req, res) => {
   try {
-    const { text, startingDate } = req.body;
+    const { text } = req.body;
     const { id } = req.params;
     const con = await client.connect();
     const questionId = { _id: new ObjectId(id) };
-    const update = { $set: { text, startingDate } };
+    const update = { $set: { text } };
     const data = await con
       .db(dbName)
       .collection("Questions")
@@ -262,54 +262,6 @@ app.delete("/answers/:id", async (req, res) => {
   }
 });
 
-app.get("/usersWithQuestions", async (req, res) => {
-  try {
-    const con = await client.connect();
-    const data = await con
-      .db(dbName)
-      .collection("Users")
-      .aggregate([
-        {
-          $lookup: {
-            from: "Questions",
-            localField: "_id",
-            foreignField: "userId",
-            as: "Questions",
-          },
-        },
-      ])
-      .toArray();
-    await con.close();
-    res.send(data);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
-
-app.get("/usersWithAnswers", async (req, res) => {
-  try {
-    const con = await client.connect();
-    const data = await con
-      .db(dbName)
-      .collection("Users")
-      .aggregate([
-        {
-          $lookup: {
-            from: "Answers",
-            localField: "_id",
-            foreignField: "userId",
-            as: "Answers",
-          },
-        },
-      ])
-      .toArray();
-    await con.close();
-    res.send(data);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
-
 app.get("/questionsWithAnswers", async (req, res) => {
   try {
     const con = await client.connect();
@@ -334,17 +286,41 @@ app.get("/questionsWithAnswers", async (req, res) => {
   }
 });
 
-app.get("/owners", async (req, res) => {
+// app.get("/questions", async (req, res) => {
+//   try {
+//     const { sort } = req.query;
+//     const sortType = sort === "asc" ? 1 : -1;
+
+//     const con = await client.connect();
+//     const data = await con
+//       .db(dbName)
+//       .collection("Questions")
+//       .find()
+//       .sort({ date: sortType })
+//       .toArray();
+//     await con.close();
+//     res.send(data);
+//   } catch (error) {
+//     res.status(500).send(error);
+//   }
+// });
+app.get("/questions", async (req, res) => {
   try {
     const { sort } = req.query;
-    const sortType = sort === "asc" ? 1 : -1;
+    let sortQuery = {};
+
+    if (sort === "date") {
+      sortQuery = { date: 1 };
+    } else if (sort === "answers") {
+      sortQuery = { answerCount: -1 };
+    }
 
     const con = await client.connect();
     const data = await con
       .db(dbName)
-      .collection("owners")
+      .collection("Questions")
       .find()
-      .sort({ income: sortType })
+      .sort(sortQuery)
       .toArray();
     await con.close();
     res.send(data);
@@ -353,13 +329,14 @@ app.get("/owners", async (req, res) => {
   }
 });
 
-app.get("/usersCount/Jonas", async (req, res) => {
+app.get("/answers/:questionId", async (req, res) => {
   try {
+    const { questionId } = req.params;
     const con = await client.connect();
     const data = await con
-      .db("MyDataBase")
-      .collection("Users")
-      .countDocuments({ name: "Jonas Petravicius" });
+      .db(dbName)
+      .collection("Answers")
+      .countDocuments({ answer: questionId });
     await con.close();
     res.send({ count: data });
   } catch (error) {

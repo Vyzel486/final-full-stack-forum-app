@@ -21,6 +21,10 @@
 .title {
   text-align: center;
   color: $primaryMain;
+
+  h2 {
+    margin-bottom: 0.5rem;
+  }
 }
 
 .questionsCard-container {
