@@ -1,0 +1,36 @@
+@import "../../../styles/colors.scss";
+@import "../../../styles/shadows.scss";
+
+.answerCard-container {
+  border: 1px solid $cardDark;
+  width: 500px;
+  min-height: 100px;
+  box-shadow: $shadow;
+  border-radius: 5px;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+
+  &:hover {
+    cursor: pointer;
+    background-color: $cardMain;
+  }
+
+  .icon,
+  .fill-icon {
+    font-size: 1.5rem;
+  }
+
+  .fill-icon {
+    color: $primaryMain;
+  }
+
+  .answerCard-dateAndIcon {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .answer-date {
+      font-size: 12px;
+    }
+  }
+}

@@ -5,6 +5,7 @@ import { getQuestion, createAnswer, getAnswers } from "../../api/projects";
 import QuestionAction from "./QuestionAction/QuestionAction";
 import AnswerAction from "./AnswerAction/AnswerAction";
 import QuestionCard from "../Forum/QuestionCard";
+import AnswerCard from "../Question/AnswerCard/AnswerCard";
 import { QUESTION_ROUTE } from "../../routes/const";
 import Loader from "../../components/Loader/Loader";
 import Button from "../../components/Button/Button";
@@ -69,7 +70,7 @@ const Question = () => {
     <div>
       <div className="actions-container">
         <QuestionAction id={question ? question._id : null} />
-        <AnswerAction id={question ? question._id : null} />
+        <AnswerAction />
       </div>
 
       <div className="question-container">
@@ -81,10 +82,7 @@ const Question = () => {
               key={question._id}
               to={generatePath(QUESTION_ROUTE, { id: question._id })}
             >
-              <QuestionCard
-                text={question.text}
-                startingDate={question.startingDate}
-              />
+              <QuestionCard text={question.text} date={question.date} />
             </Link>
           ))
         ) : (
@@ -101,10 +99,7 @@ const Question = () => {
               key={answer._id}
               to={generatePath(QUESTION_ROUTE, { id: answer._id })}
             >
-              <QuestionCard
-                text={answer.text}
-                startingDate={answer.startingDate}
-              />
+              <AnswerCard text={answer.text} date={answer.date} />
             </Link>
           ))
         ) : (

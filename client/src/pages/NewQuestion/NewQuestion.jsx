@@ -64,7 +64,6 @@ NewQuestion.propTypes = {
   question: PropTypes.shape({
     _id: PropTypes.string,
     text: PropTypes.string,
-    startingDate: PropTypes.string,
   }),
 };
 

@@ -26,15 +26,14 @@
 .questionsCard-container {
   border: 1px solid $cardDark;
   width: 500px;
-  min-height: 80px;
+  min-height: 100px;
   box-shadow: $shadow;
   border-radius: 5px;
   padding: 1rem;
-  margin-bottom: 0.7rem;
+  margin-bottom: 0.5rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  position: relative;
 
   &:hover {
     cursor: pointer;
@@ -56,5 +55,9 @@
     padding: 0.25rem 0.5rem;
     font-size: 0.75rem;
     font-weight: bold;
+  }
+
+  .question-date {
+    font-size: 12px;
   }
 }

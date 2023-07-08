@@ -131,7 +131,7 @@ app.post("/add-question", async (req, res) => {
       .collection("Questions")
       .insertOne({
         text,
-        date: new Date(),
+        date: new Date().toLocaleDateString(),
         userId: new ObjectId(req.body.userId),
       });
     await con.close();
@@ -218,7 +218,7 @@ app.post("/questions/:questionId/answer", async (req, res) => {
       .collection("Answers")
       .insertOne({
         text,
-        date: new Date(),
+        date: new Date().toLocaleDateString(),
         userId: new ObjectId(req.body.userId),
         questionId,
       });
@@ -329,6 +329,39 @@ app.get("/questionsWithAnswers", async (req, res) => {
       .toArray();
     await con.close();
     res.send(data);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.get("/owners", async (req, res) => {
+  try {
+    const { sort } = req.query;
+    const sortType = sort === "asc" ? 1 : -1;
+
+    const con = await client.connect();
+    const data = await con
+      .db(dbName)
+      .collection("owners")
+      .find()
+      .sort({ income: sortType })
+      .toArray();
+    await con.close();
+    res.send(data);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.get("/usersCount/Jonas", async (req, res) => {
+  try {
+    const con = await client.connect();
+    const data = await con
+      .db("MyDataBase")
+      .collection("Users")
+      .countDocuments({ name: "Jonas Petravicius" });
+    await con.close();
+    res.send({ count: data });
   } catch (error) {
     res.status(500).send(error);
   }

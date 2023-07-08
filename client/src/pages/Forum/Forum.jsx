@@ -33,6 +33,10 @@ const Forum = () => {
         </Link>
       </div>
       <h2 className="title">QUESTIONS</h2>
+      <div>
+        <Button>Sort</Button>
+      </div>
+
       <div className="questions-container">
         {isLoading ? (
           <Loader />
@@ -44,10 +48,7 @@ const Forum = () => {
               key={question._id}
               to={generatePath(QUESTION_ROUTE, { id: question._id })}
             >
-              <QuestionCard
-                text={question.text}
-                startingDate={question.startingDate}
-              />
+              <QuestionCard text={question.text} date={question.date} />
             </Link>
           ))
         )}
