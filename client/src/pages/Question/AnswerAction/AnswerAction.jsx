@@ -1,10 +1,13 @@
 import { useNavigate, useParams } from "react-router-dom";
-import Button from "../../../components/Button/Button";
 import { deleteAnswer } from "../../../api/projects";
 import { QUESTION_ROUTE } from "../../../routes/const";
+import { AiOutlineEdit } from "react-icons/ai";
+import { FaTrashAlt } from "react-icons/fa";
+import "./AnswerAction.scss";
 
 const AnswerAction = () => {
   const { id } = useParams();
+
   const navigate = useNavigate();
 
   const handleAnswerDelete = async () => {
@@ -20,13 +23,9 @@ const AnswerAction = () => {
 
   return (
     <div className="question-actions">
-      <div className="question-actions-buttons">
-        <Button variant="outlined" onClick={handleAnswerEdit}>
-          Edit Answer
-        </Button>
-        <Button color="error" onClick={handleAnswerDelete}>
-          Delete Answer
-        </Button>
+      <div className="question-actions-iconsContainer">
+        <AiOutlineEdit onClick={handleAnswerEdit} className="edit" />
+        <FaTrashAlt onClick={handleAnswerDelete} className="trash" />
       </div>
     </div>
   );

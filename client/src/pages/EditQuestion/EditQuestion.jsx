@@ -14,7 +14,6 @@ const EditQuestion = () => {
     setIsLoading(true);
     getQuestion(id)
       .then((response) => {
-        console.log(response);
         setQuestion(response[0]);
       })
       .catch((error) => {

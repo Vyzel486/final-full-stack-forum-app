@@ -1,13 +1,18 @@
 .actions-container {
   display: flex;
-  flex-direction: row-reverse;
-  justify-content: space-between;
+  justify-content: flex-end;
+  margin: 1rem 1rem 0 0;
 }
 
 .question-container {
   display: flex;
   justify-content: center;
-  margin: 1rem 0;
+}
+
+.answers-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .answer-form {
@@ -16,4 +21,9 @@
   align-items: center;
   gap: 0.2rem;
   justify-content: center;
+}
+
+.title {
+  text-align: center;
+  margin: 1rem 0;
 }

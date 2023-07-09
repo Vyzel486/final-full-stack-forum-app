@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import {
   AiOutlineLike,
@@ -7,6 +6,7 @@ import {
   AiOutlineDislike,
   AiFillDislike,
 } from "react-icons/ai";
+import AnswerAction from "../AnswerAction/AnswerAction";
 import "./AnswerCard.scss";
 
 const AnswerCard = ({ answer }) => {
@@ -33,7 +33,11 @@ const AnswerCard = ({ answer }) => {
 
   return (
     <div className="answerCard-container">
-      <p>{text}</p>
+      <div className="iconsAndText">
+        <AnswerAction />
+        <div className="answer-text">{text}</div>
+      </div>
+
       <div className="answerCard-dateAndIcon">
         <p className="answer-date">{date}</p>
         <div>

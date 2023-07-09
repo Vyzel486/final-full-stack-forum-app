@@ -1,9 +1,8 @@
 import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
-import { Link, useParams, generatePath, useNavigate } from "react-router-dom";
+import { Link, useParams, generatePath } from "react-router-dom";
 import { getQuestion, createAnswer, getAnswers } from "../../api/projects";
 import QuestionAction from "./QuestionAction/QuestionAction";
-import AnswerAction from "./AnswerAction/AnswerAction";
 import QuestionCard from "../Forum/QuestionCard";
 import AnswerCard from "../Question/AnswerCard/AnswerCard";
 import { QUESTION_ROUTE } from "../../routes/const";
@@ -19,8 +18,6 @@ const Question = () => {
   const [answers, setAnswers] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [text, setText] = useState("");
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     setIsLoading(true);
@@ -45,6 +42,7 @@ const Question = () => {
 
       const newAnswer = await createAnswer(id, answerData);
       setAnswers([...answers, newAnswer]);
+      setText("");
     } catch (error) {
       console.error(error);
     }
@@ -68,9 +66,8 @@ const Question = () => {
     <div>
       <div className="actions-container">
         <QuestionAction id={question ? question._id : null} />
-        <AnswerAction />
       </div>
-
+      <div className="title">QUESTION</div>
       <div className="question-container">
         {isLoading ? (
           <Loader />
@@ -87,8 +84,8 @@ const Question = () => {
           <div>Question not found</div>
         )}
       </div>
-
-      <div className="question-container">
+      <div className="title">ANSWERS</div>
+      <div className="answers-container">
         {isLoading ? (
           <Loader />
         ) : answers ? (

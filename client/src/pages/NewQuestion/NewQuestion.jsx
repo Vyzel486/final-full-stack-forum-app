@@ -25,7 +25,6 @@ const NewQuestion = ({ question }) => {
     };
 
     const saveQuestion = isEditing ? updateQuestion : createQuestion;
-    console.log(question);
     const savingQuestion = isEditing
       ? { id: question._id, ...submittingQuestion }
       : submittingQuestion;
@@ -38,7 +37,7 @@ const NewQuestion = ({ question }) => {
         navigate(route);
       })
       .catch((error) => {
-        console.log(error);
+        console.log("Error saving question", error);
       });
   };
 

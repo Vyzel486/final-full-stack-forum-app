@@ -2,13 +2,16 @@
 @import "../../../styles/shadows.scss";
 
 .answerCard-container {
-  border: 1px solid $cardDark;
+  border: 1px solid $primaryMain;
   width: 500px;
   min-height: 100px;
   box-shadow: $shadow;
   border-radius: 5px;
-  padding: 1rem;
+  padding: 0.5rem;
   margin-bottom: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   &:hover {
     cursor: pointer;
@@ -31,6 +34,19 @@
 
     .answer-date {
       font-size: 12px;
+    }
+  }
+
+  .iconsAndText {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+
+    .answer-text {
+      width: 420px;
+      margin-bottom: 0.2rem;
+      overflow-wrap: break-word;
     }
   }
 }
