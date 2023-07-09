@@ -71,9 +71,7 @@ export const createAnswer = async (questionId, newAnswer) => {
     `http://localhost:3000/questions/${questionId}/answer`,
     newAnswer
   );
-
   const savedAnswer = await getAnswer(response.data.insertedId);
-
   return savedAnswer[0];
 };
 
@@ -85,21 +83,23 @@ export const updateAnswer = async (answer) => {
   return response.data;
 };
 
-export const deleteAnswer = async (_id) => {
-  const response = await axios.delete(`http://localhost:3000/answers/${_id}`);
+export const deleteAnswer = async (answerId) => {
+  const response = await axios.delete(
+    `http://localhost:3000/answers/${answerId}`
+  );
   return response.data;
 };
 
 export const sortQuestions = async (sortType) => {
   let sort = "";
   if (sortType === "dateAsc") {
-    sort = "date";
-  } else if (sortType === "dateDesc") {
-    sort = "-date";
+    sort = 1;
+  } else if (sortType === "dateDsc") {
+    sort = -1;
   } else if (sortType === "answersAsc") {
-    sort = "answerCount";
-  } else if (sortType === "answersDesc") {
-    sort = "-answerCount";
+    sort = 1;
+  } else if (sortType === "answersDsc") {
+    sort = -1;
   }
 
   const response = await axios.get(`/questions?sort=${sort}`);

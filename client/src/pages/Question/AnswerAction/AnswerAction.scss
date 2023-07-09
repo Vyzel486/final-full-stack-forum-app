@@ -7,10 +7,26 @@
     display: flex;
     gap: 0.5rem;
   }
+
   .edit {
     color: $primaryMain;
+
+    &:hover {
+      color: $primaryDark;
+      border: 1px solid $primaryMain;
+      border-radius: 2px;
+      padding: 1px;
+    }
   }
+
   .trash {
     color: $errorMain;
+
+    &:hover {
+      color: $errorDark;
+      border: 1px solid $errorMain;
+      border-radius: 2px;
+      padding: 1px;
+    }
   }
 }

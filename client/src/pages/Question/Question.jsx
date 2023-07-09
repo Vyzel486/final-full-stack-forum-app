@@ -19,6 +19,11 @@ const Question = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [text, setText] = useState("");
 
+  const removeAnswer = (answerId) => {
+    const newAnswers = answers.filter((answer) => answer._id !== answerId);
+    setAnswers(newAnswers);
+  };
+
   useEffect(() => {
     setIsLoading(true);
     getQuestion(id)
@@ -90,7 +95,11 @@ const Question = () => {
           <Loader />
         ) : answers ? (
           answers.map((answer) => (
-            <AnswerCard key={answer._id} answer={answer} />
+            <AnswerCard
+              key={answer._id}
+              answer={answer}
+              removeAnswer={removeAnswer}
+            />
           ))
         ) : (
           <div>Answer not found</div>

@@ -229,11 +229,11 @@ app.post("/questions/:questionId/answer", async (req, res) => {
 
 app.put("/answers/:id", async (req, res) => {
   try {
-    const { text, startingDate } = req.body;
+    const { text } = req.body;
     const { id } = req.params;
     const con = await client.connect();
     const answerId = { _id: new ObjectId(id) };
-    const update = { $set: { text, startingDate } };
+    const update = { $set: { text } };
     const data = await con
       .db(dbName)
       .collection("Answers")

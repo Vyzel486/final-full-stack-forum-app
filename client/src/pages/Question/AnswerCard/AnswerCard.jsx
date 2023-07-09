@@ -9,9 +9,10 @@ import {
 import AnswerAction from "../AnswerAction/AnswerAction";
 import "./AnswerCard.scss";
 
-const AnswerCard = ({ answer }) => {
+const AnswerCard = ({ answer, removeAnswer }) => {
   const { text, date, _id: answerId } = answer;
   const [rate, setRate] = useState(null);
+
   const handleRateChange = (newRate) => {
     setRate((previousRate) => (previousRate === newRate ? 0 : newRate));
   };
@@ -34,7 +35,7 @@ const AnswerCard = ({ answer }) => {
   return (
     <div className="answerCard-container">
       <div className="iconsAndText">
-        <AnswerAction />
+        <AnswerAction answerId={answerId} removeAnswer={removeAnswer} />
         <div className="answer-text">{text}</div>
       </div>
 
@@ -71,6 +72,7 @@ const AnswerCard = ({ answer }) => {
 
 AnswerCard.propTypes = {
   answer: PropTypes.object,
+  removeAnswer: PropTypes.func,
 };
 
 export default AnswerCard;

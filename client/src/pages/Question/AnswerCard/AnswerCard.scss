@@ -21,6 +21,10 @@
   .icon,
   .fill-icon {
     font-size: 1.5rem;
+
+    &:hover {
+      color: $primaryMain;
+    }
   }
 
   .fill-icon {
