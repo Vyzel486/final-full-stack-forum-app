@@ -55,7 +55,6 @@ const Question = () => {
     getAnswers(id)
       .then((response) => {
         setAnswers(response);
-        console.log(response);
       })
       .catch((error) => {
         console.error(error);
@@ -94,12 +93,7 @@ const Question = () => {
           <Loader />
         ) : answers ? (
           answers.map((answer) => (
-            <Link
-              key={answer._id}
-              to={generatePath(QUESTION_ROUTE, { id: answer._id })}
-            >
-              <AnswerCard text={answer.text} date={answer.date} />
-            </Link>
+            <AnswerCard key={answer._id} answer={answer} />
           ))
         ) : (
           <div>Answer not found</div>

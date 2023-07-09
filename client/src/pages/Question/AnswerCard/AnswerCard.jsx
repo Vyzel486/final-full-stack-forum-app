@@ -9,28 +9,27 @@ import {
 } from "react-icons/ai";
 import "./AnswerCard.scss";
 
-const AnswerCard = ({ text, date }) => {
-  const { id } = useParams();
+const AnswerCard = ({ answer }) => {
+  const { text, date, _id: answerId } = answer;
   const [rate, setRate] = useState(null);
-
   const handleRateChange = (newRate) => {
     setRate((previousRate) => (previousRate === newRate ? 0 : newRate));
   };
 
   useEffect(() => {
-    const savedRate = localStorage.getItem(`rate_${id}`);
+    const savedRate = localStorage.getItem(`rate_${answerId}`);
     if (savedRate) {
       setRate(parseInt(savedRate));
     } else {
       setRate(0);
     }
-  }, [id]);
+  }, [answerId]);
 
   useEffect(() => {
     if (rate !== null && rate !== undefined) {
-      localStorage.setItem(`rate_${id}`, rate.toString());
+      localStorage.setItem(`rate_${answerId}`, rate.toString());
     }
-  }, [rate, id]);
+  }, [rate, answerId]);
 
   return (
     <div className="answerCard-container">
@@ -67,8 +66,7 @@ const AnswerCard = ({ text, date }) => {
 };
 
 AnswerCard.propTypes = {
-  text: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
+  answer: PropTypes.object,
 };
 
 export default AnswerCard;
