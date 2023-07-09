@@ -103,6 +103,7 @@ const AnswerCard = ({ answer, updateAnswerInState, removeAnswer }) => {
             <AiFillLike
               className="fill-icon"
               onClick={() => handleRateChange(1)}
+              title="Like"
             />
           ) : (
             <AiOutlineLike
@@ -114,6 +115,7 @@ const AnswerCard = ({ answer, updateAnswerInState, removeAnswer }) => {
             <AiFillDislike
               className="fill-icon"
               onClick={() => handleRateChange(2)}
+              title="Dislike"
             />
           ) : (
             <AiOutlineDislike

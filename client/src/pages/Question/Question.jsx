@@ -133,7 +133,7 @@ const Question = () => {
           />
         </div>
         <div>
-          <Button onClick={handleCreateAnswer}>To Answer</Button>
+          <Button onClick={handleCreateAnswer}>Send Answer</Button>
         </div>
       </div>
     </div>
