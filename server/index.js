@@ -95,16 +95,36 @@ app.post("/login", async (req, res) => {
 
 app.get("/questions", async (req, res) => {
   try {
-    const { sortType } = req.query;
+    const { sortType, filterType } = req.query;
 
-    const mapping = {
-      dateAsc: { date: 1 },
-      dateDesc: { date: -1 },
-      answerCountAsc: { answersCount: 1 },
-      answerCountDesc: { answersCount: -1 },
+    const getSortQuery = () => {
+      const mapping = {
+        dateAsc: { date: 1 },
+        dateDesc: { date: -1 },
+        answerCountAsc: { answersCount: 1 },
+        answerCountDesc: { answersCount: -1 },
+      };
+
+      return { ...mapping[sortType], _id: 1 };
     };
 
-    const sortQuery = { ...mapping[sortType], _id: 1 };
+    const getFilterQuery = () => {
+      const mapping = {
+        all: {},
+        answered: {
+          answersCount: {
+            $gt: 0,
+          },
+        },
+        unanswered: {
+          answersCount: {
+            $lt: 1,
+          },
+        },
+      };
+
+      return mapping[filterType];
+    };
 
     const con = await client.connect();
 
@@ -126,13 +146,17 @@ app.get("/questions", async (req, res) => {
           },
         },
         { $unset: ["answers"] },
+        {
+          $match: getFilterQuery(),
+        },
       ])
-      .sort(sortQuery)
+      .sort(getSortQuery())
       .toArray();
 
     await con.close();
     res.send(data);
   } catch (error) {
+    console.log("errr", error);
     res.status(500).send(error);
   }
 });

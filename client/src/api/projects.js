@@ -23,9 +23,9 @@ export const deleteUser = async (_id) => {
   return response.data;
 };
 
-export const getQuestions = async (sortType) => {
+export const getQuestions = async (sortType, filterType) => {
   const response = await axios.get(
-    `http://localhost:3000/questions?sortType=${sortType}`
+    `http://localhost:3000/questions?sortType=${sortType}&filterType=${filterType}`
   );
   return response.data;
 };

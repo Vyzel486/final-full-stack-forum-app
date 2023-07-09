@@ -3,6 +3,7 @@ import { Link, generatePath } from "react-router-dom";
 import { getQuestions } from "../../api/projects";
 import QuestionCard from "./QuestionCard";
 import QuestionSort from "../Question/QuestionSort/QuestionSort";
+import QuestionFilter from "../Question/QuestionFilter/QuestionFilter";
 import Button from "../../components/Button/Button";
 import { QUESTION_ROUTE, NEW_QUESTION_ROUTE } from "../../routes/const";
 import Loader from "../../components/Loader/Loader";
@@ -12,9 +13,10 @@ const Forum = () => {
   const [questions, setQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [sortType, setSortType] = useState("dateAsc");
+  const [filterType, setFilterType] = useState("all");
 
   const fetchQuestions = () => {
-    getQuestions(sortType)
+    getQuestions(sortType, filterType)
       .then((response) => {
         setQuestions(response);
       })
@@ -28,8 +30,8 @@ const Forum = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    fetchQuestions(sortType);
-  }, [sortType]);
+    fetchQuestions();
+  }, [sortType, filterType]);
 
   return (
     <div>
@@ -42,6 +44,7 @@ const Forum = () => {
       <div className="title">
         <h2>QUESTIONS</h2>
         <QuestionSort sortType={sortType} setSortType={setSortType} />
+        <QuestionFilter filterType={filterType} setFilterType={setFilterType} />
       </div>
 
       <div className="questions-container">
