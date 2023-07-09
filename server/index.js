@@ -114,7 +114,6 @@ app.get("/questions/:id", async (req, res) => {
       .find({ _id: new ObjectId(questionId) })
       .toArray();
     // await con.close();
-    console.log("data", data);
     res.send(data);
   } catch (error) {
     console.log("error getQuestion", error);
@@ -183,7 +182,6 @@ app.get("/questions/:questionId/answers", async (req, res) => {
       .collection("Answers")
       .find({ questionId })
       .toArray();
-    console.log("data", data);
     await con.close();
     res.send(data);
   } catch (error) {

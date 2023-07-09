@@ -42,7 +42,6 @@ export const createQuestion = async (question) => {
 };
 
 export const updateQuestion = async (question) => {
-  console.log(question);
   const response = await axios.put(
     `http://localhost:3000/questions/${question.id}`,
     question
@@ -64,7 +63,6 @@ export const getAnswers = async (questionId) => {
 
 export const getAnswer = async (_id) => {
   const response = await axios.get(`http://localhost:3000/answers/${_id}`);
-  console.log(response.data);
   return response.data;
 };
 
@@ -73,7 +71,10 @@ export const createAnswer = async (questionId, newAnswer) => {
     `http://localhost:3000/questions/${questionId}/answer`,
     newAnswer
   );
-  return response.data;
+
+  const savedAnswer = await getAnswer(response.data.insertedId);
+
+  return savedAnswer[0];
 };
 
 export const updateAnswer = async (answer) => {
