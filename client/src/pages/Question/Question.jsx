@@ -43,8 +43,7 @@ const Question = () => {
         text: text,
       };
 
-      await createAnswer(answerData);
-      console.log(id);
+      await createAnswer(id, answerData);
       navigate(generatePath(QUESTION_ROUTE, { id }));
     } catch (error) {
       console.error(error);
