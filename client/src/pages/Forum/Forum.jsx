@@ -147,7 +147,11 @@ const Forum = () => {
               key={question._id}
               to={generatePath(QUESTION_ROUTE, { id: question._id })}
             >
-              <QuestionCard text={question.text} date={question.date} />
+              <QuestionCard
+                text={question.text}
+                date={question.date}
+                modifiedDate={question.modifiedDate}
+              />
             </Link>
           ))
         )}

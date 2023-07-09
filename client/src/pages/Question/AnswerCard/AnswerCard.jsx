@@ -12,7 +12,7 @@ import "./AnswerCard.scss";
 import { deleteAnswer, updateAnswer } from "../../../api/projects";
 
 const AnswerCard = ({ answer, updateAnswerInState, removeAnswer }) => {
-  const { text, date, _id: answerId } = answer;
+  const { text, date, modifiedDate, _id: answerId } = answer;
   const [rate, setRate] = useState(null);
   const [isEditMode, setIsEditMode] = useState(false);
 
@@ -78,12 +78,26 @@ const AnswerCard = ({ answer, updateAnswerInState, removeAnswer }) => {
     );
   };
 
+  const displayDate = (date) => {
+    console.log("date", date);
+    return new Intl.DateTimeFormat("lt-LT", {
+      dateStyle: "short",
+      timeStyle: "medium",
+    }).format(new Date(date));
+  };
+
   return (
     <div className="answerCard-container">
       {isEditMode ? renderEditForm() : renderMainContent()}
 
       <div className="answerCard-dateAndIcon">
-        <p className="answer-date">{date}</p>
+        <div>
+          <p className="answer-date">Created: {displayDate(date)}</p>
+          {modifiedDate && (
+            <p className="answer-date">Modified: {displayDate(modifiedDate)}</p>
+          )}
+        </div>
+
         <div>
           {rate === 1 ? (
             <AiFillLike

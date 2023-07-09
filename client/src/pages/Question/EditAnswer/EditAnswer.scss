@@ -1,0 +1,13 @@
+.editAnswer-form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .editAnswer-buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .editAnswer-input {
+    width: 300px;
+  }
+}

@@ -130,7 +130,7 @@ app.post("/add-question", async (req, res) => {
       .collection("Questions")
       .insertOne({
         text,
-        date: new Date().toLocaleDateString(),
+        date: new Date().toISOString(),
         userId: new ObjectId(req.body.userId),
       });
     await con.close();
@@ -146,7 +146,7 @@ app.put("/questions/:id", async (req, res) => {
     const { id } = req.params;
     const con = await client.connect();
     const questionId = { _id: new ObjectId(id) };
-    const update = { $set: { text } };
+    const update = { $set: { text, modifiedDate: new Date().toISOString() } };
     const data = await con
       .db(dbName)
       .collection("Questions")
@@ -216,7 +216,7 @@ app.post("/questions/:questionId/answer", async (req, res) => {
       .collection("Answers")
       .insertOne({
         text,
-        date: new Date().toLocaleDateString(),
+        date: new Date().toISOString(),
         userId: new ObjectId(req.body.userId),
         questionId,
       });
@@ -233,7 +233,9 @@ app.put("/answers/:id", async (req, res) => {
     const { id } = req.params;
     const con = await client.connect();
     const answerId = { _id: new ObjectId(id) };
-    const update = { $set: { text } };
+    const update = {
+      $set: { text, modifiedDate: new Date().toISOString() },
+    };
     const data = await con
       .db(dbName)
       .collection("Answers")
