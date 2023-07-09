@@ -19,6 +19,18 @@ const Question = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [text, setText] = useState("");
 
+  const updateAnswer = (updatedAnswer) => {
+    const newAnswers = answers.reduce((acc, answer) => {
+      const answerToPush =
+        updatedAnswer._id === answer._id ? updatedAnswer : answer;
+
+      acc.push(answerToPush);
+
+      return acc;
+    }, []);
+    setAnswers(newAnswers);
+  };
+
   const removeAnswer = (answerId) => {
     const newAnswers = answers.filter((answer) => answer._id !== answerId);
     setAnswers(newAnswers);
@@ -98,6 +110,7 @@ const Question = () => {
             <AnswerCard
               key={answer._id}
               answer={answer}
+              updateAnswerInState={updateAnswer}
               removeAnswer={removeAnswer}
             />
           ))

@@ -75,12 +75,10 @@ export const createAnswer = async (questionId, newAnswer) => {
   return savedAnswer[0];
 };
 
-export const updateAnswer = async (answer) => {
-  const response = await axios.put(
-    `http://localhost:3000/answers/${answer._id}`,
-    answer
-  );
-  return response.data;
+export const updateAnswer = async (answerId, text) => {
+  await axios.put(`http://localhost:3000/answers/${answerId}`, { text });
+  const updatedAnswer = await getAnswer(answerId);
+  return updatedAnswer[0];
 };
 
 export const deleteAnswer = async (answerId) => {

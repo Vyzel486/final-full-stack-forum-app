@@ -7,11 +7,14 @@ import {
   AiFillDislike,
 } from "react-icons/ai";
 import AnswerAction from "../AnswerAction/AnswerAction";
+import EditAnswer from "../EditAnswer/EditAnswer";
 import "./AnswerCard.scss";
+import { deleteAnswer, updateAnswer } from "../../../api/projects";
 
-const AnswerCard = ({ answer, removeAnswer }) => {
+const AnswerCard = ({ answer, updateAnswerInState, removeAnswer }) => {
   const { text, date, _id: answerId } = answer;
   const [rate, setRate] = useState(null);
+  const [isEditMode, setIsEditMode] = useState(false);
 
   const handleRateChange = (newRate) => {
     setRate((previousRate) => (previousRate === newRate ? 0 : newRate));
@@ -32,12 +35,52 @@ const AnswerCard = ({ answer, removeAnswer }) => {
     }
   }, [rate, answerId]);
 
-  return (
-    <div className="answerCard-container">
+  const handleAnswerSave = async (newText) => {
+    try {
+      const updatedAnswer = await updateAnswer(answerId, newText);
+      updateAnswerInState(updatedAnswer);
+      setIsEditMode(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleAnswerDelete = async () => {
+    if (window.confirm("Do you really want to delete this answer?")) {
+      try {
+        await deleteAnswer(answerId);
+        removeAnswer(answerId);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+  const renderMainContent = () => {
+    return (
       <div className="iconsAndText">
-        <AnswerAction answerId={answerId} removeAnswer={removeAnswer} />
+        <AnswerAction
+          onEdit={() => setIsEditMode(true)}
+          onDelete={handleAnswerDelete}
+        />
         <div className="answer-text">{text}</div>
       </div>
+    );
+  };
+
+  const renderEditForm = () => {
+    return (
+      <EditAnswer
+        initialText={answer.text}
+        onSave={handleAnswerSave}
+        onCancel={() => setIsEditMode(false)}
+      />
+    );
+  };
+
+  return (
+    <div className="answerCard-container">
+      {isEditMode ? renderEditForm() : renderMainContent()}
 
       <div className="answerCard-dateAndIcon">
         <p className="answer-date">{date}</p>
@@ -72,6 +115,7 @@ const AnswerCard = ({ answer, removeAnswer }) => {
 
 AnswerCard.propTypes = {
   answer: PropTypes.object,
+  updateAnswerInState: PropTypes.func,
   removeAnswer: PropTypes.func,
 };
 
