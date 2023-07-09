@@ -23,8 +23,10 @@ export const deleteUser = async (_id) => {
   return response.data;
 };
 
-export const getQuestions = async () => {
-  const response = await axios.get("http://localhost:3000/questions");
+export const getQuestions = async (sortType) => {
+  const response = await axios.get(
+    `http://localhost:3000/questions?sortType=${sortType}`
+  );
   return response.data;
 };
 
@@ -85,21 +87,5 @@ export const deleteAnswer = async (answerId) => {
   const response = await axios.delete(
     `http://localhost:3000/answers/${answerId}`
   );
-  return response.data;
-};
-
-export const sortQuestions = async (sortType) => {
-  let sort = "";
-  if (sortType === "dateAsc") {
-    sort = 1;
-  } else if (sortType === "dateDsc") {
-    sort = -1;
-  } else if (sortType === "answersAsc") {
-    sort = 1;
-  } else if (sortType === "answersDsc") {
-    sort = -1;
-  }
-
-  const response = await axios.get(`/questions?sort=${sort}`);
   return response.data;
 };

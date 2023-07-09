@@ -95,8 +95,41 @@ app.post("/login", async (req, res) => {
 
 app.get("/questions", async (req, res) => {
   try {
+    const { sortType } = req.query;
+
+    const mapping = {
+      dateAsc: { date: 1 },
+      dateDesc: { date: -1 },
+      answerCountAsc: { answersCount: 1 },
+      answerCountDesc: { answersCount: -1 },
+    };
+
+    const sortQuery = { ...mapping[sortType], _id: 1 };
+
     const con = await client.connect();
-    const data = await con.db(dbName).collection("Questions").find().toArray();
+
+    const data = await con
+      .db(dbName)
+      .collection("Questions")
+      .aggregate([
+        {
+          $lookup: {
+            from: "Answers",
+            localField: "_id",
+            foreignField: "questionId",
+            as: "answers",
+          },
+        },
+        {
+          $addFields: {
+            answersCount: { $size: "$answers" },
+          },
+        },
+        { $unset: ["answers"] },
+      ])
+      .sort(sortQuery)
+      .toArray();
+
     await con.close();
     res.send(data);
   } catch (error) {
@@ -278,49 +311,6 @@ app.get("/questionsWithAnswers", async (req, res) => {
           },
         },
       ])
-      .toArray();
-    await con.close();
-    res.send(data);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
-
-// app.get("/questions", async (req, res) => {
-//   try {
-//     const { sort } = req.query;
-//     const sortType = sort === "asc" ? 1 : -1;
-
-//     const con = await client.connect();
-//     const data = await con
-//       .db(dbName)
-//       .collection("Questions")
-//       .find()
-//       .sort({ date: sortType })
-//       .toArray();
-//     await con.close();
-//     res.send(data);
-//   } catch (error) {
-//     res.status(500).send(error);
-//   }
-// });
-app.get("/questions", async (req, res) => {
-  try {
-    const { sort } = req.query;
-    let sortQuery = {};
-
-    if (sort === "date") {
-      sortQuery = { date: 1 };
-    } else if (sort === "answers") {
-      sortQuery = { answerCount: -1 };
-    }
-
-    const con = await client.connect();
-    const data = await con
-      .db(dbName)
-      .collection("Questions")
-      .find()
-      .sort(sortQuery)
       .toArray();
     await con.close();
     res.send(data);
