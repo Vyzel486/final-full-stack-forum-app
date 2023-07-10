@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 import Button from "../../../components/Button/Button";
 import FormItem from "../../../components/FormItem/FormItem";
 import "./EditAnswer.scss";
@@ -25,6 +26,12 @@ const EditAnswer = ({ initialText, onSave, onCancel }) => {
       </div>
     </div>
   );
+};
+
+EditAnswer.propTypes = {
+  initialText: PropTypes.string.isRequired,
+  onSave: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
 };
 
 export default EditAnswer;

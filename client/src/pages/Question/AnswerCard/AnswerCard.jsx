@@ -79,7 +79,6 @@ const AnswerCard = ({ answer, updateAnswerInState, removeAnswer }) => {
   };
 
   const displayDate = (date) => {
-    console.log("date", date);
     return new Intl.DateTimeFormat("lt-LT", {
       dateStyle: "short",
       timeStyle: "medium",
@@ -130,9 +129,9 @@ const AnswerCard = ({ answer, updateAnswerInState, removeAnswer }) => {
 };
 
 AnswerCard.propTypes = {
-  answer: PropTypes.object,
-  updateAnswerInState: PropTypes.func,
-  removeAnswer: PropTypes.func,
+  answer: PropTypes.object.isRequired,
+  updateAnswerInState: PropTypes.func.isRequired,
+  removeAnswer: PropTypes.func.isRequired,
 };
 
 export default AnswerCard;

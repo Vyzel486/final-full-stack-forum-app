@@ -1,1 +1,1 @@
-export const formatDate = (date) => date.split("T")[0].toLocaleDateString();
+export const formatDate = (date) => date.split("T")[0];

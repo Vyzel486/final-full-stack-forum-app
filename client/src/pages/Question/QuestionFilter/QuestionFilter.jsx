@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 const QuestionFilter = ({ filterType, setFilterType }) => {
   return (
     <div>
@@ -11,6 +13,11 @@ const QuestionFilter = ({ filterType, setFilterType }) => {
       </select>
     </div>
   );
+};
+
+QuestionFilter.propTypes = {
+  filterType: PropTypes.string.isRequired,
+  setFilterType: PropTypes.func.isRequired,
 };
 
 export default QuestionFilter;

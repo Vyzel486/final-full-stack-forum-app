@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 const QuestionSort = ({ sortType, setSortType }) => {
   return (
     <div>
@@ -9,6 +11,11 @@ const QuestionSort = ({ sortType, setSortType }) => {
       </select>
     </div>
   );
+};
+
+QuestionSort.propTypes = {
+  sortType: PropTypes.string.isRequired,
+  setSortType: PropTypes.func.isRequired,
 };
 
 export default QuestionSort;

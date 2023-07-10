@@ -37,7 +37,7 @@ const NewQuestion = ({ question }) => {
         navigate(route);
       })
       .catch((error) => {
-        console.log("Error saving question", error);
+        console.log(error);
       });
   };
 

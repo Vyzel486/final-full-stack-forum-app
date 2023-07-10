@@ -14,7 +14,7 @@ const FormItem = ({ label, containerClassname, ...rest }) => {
 };
 
 FormItem.propTypes = {
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   containerClassname: PropTypes.string,
 };
 

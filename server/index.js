@@ -104,7 +104,6 @@ app.get("/questions", async (req, res) => {
         answerCountAsc: { answersCount: 1 },
         answerCountDesc: { answersCount: -1 },
       };
-
       return { ...mapping[sortType], _id: 1 };
     };
 
@@ -125,9 +124,7 @@ app.get("/questions", async (req, res) => {
 
       return mapping[filterType];
     };
-
     const con = await client.connect();
-
     const data = await con
       .db(dbName)
       .collection("Questions")
@@ -156,7 +153,6 @@ app.get("/questions", async (req, res) => {
     await con.close();
     res.send(data);
   } catch (error) {
-    console.log("errr", error);
     res.status(500).send(error);
   }
 });
@@ -173,7 +169,6 @@ app.get("/questions/:id", async (req, res) => {
     // await con.close();
     res.send(data);
   } catch (error) {
-    console.log("error getQuestion", error);
     res.status(500).send(error);
   }
 });
@@ -242,7 +237,6 @@ app.get("/questions/:questionId/answers", async (req, res) => {
     await con.close();
     res.send(data);
   } catch (error) {
-    console.log("error getAnswers", error);
     res.status(500).send(error);
   }
 });
@@ -314,45 +308,6 @@ app.delete("/answers/:id", async (req, res) => {
       .deleteOne({ _id: new ObjectId(answerId) });
     await con.close();
     res.send(result);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
-
-app.get("/questionsWithAnswers", async (req, res) => {
-  try {
-    const con = await client.connect();
-    const data = await con
-      .db(dbName)
-      .collection("Questions")
-      .aggregate([
-        {
-          $lookup: {
-            from: "Answers",
-            localField: "_id",
-            foreignField: "questionId",
-            as: "Answers",
-          },
-        },
-      ])
-      .toArray();
-    await con.close();
-    res.send(data);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
-
-app.get("/answers/:questionId", async (req, res) => {
-  try {
-    const { questionId } = req.params;
-    const con = await client.connect();
-    const data = await con
-      .db(dbName)
-      .collection("Answers")
-      .countDocuments({ answer: questionId });
-    await con.close();
-    res.send({ count: data });
   } catch (error) {
     res.status(500).send(error);
   }
